@@ -1,8 +1,20 @@
-import MSD from 'react-native-msd;
+# react-native-msd
 
+msd
+
+## Installation
+
+```sh
+npm install react-native-msd
+```
+
+## Usage
+
+```js
+import MSD from 'react-native-msd;
 // ...
 
-i// sdk initialization
+// sdk initialization
 
 const {init} = MSD();
 
@@ -36,7 +48,14 @@ const {recommendations, getRecommendations} = useRecommendations();
 
 // ...
 
-const requestParams = {paramOne: 'someValue', paramTwo: 'someValue'};
-getRecommendations(requestParams);
-// get the response as recommendations object# react-native-msd
-# react-native-msd
+```
+
+## Contributing
+
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+
+## License
+
+MIT
+
+---
