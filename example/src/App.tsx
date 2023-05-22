@@ -1,17 +1,22 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import MSD from 'react-native-msd';
 
 export default function App() {
-  const { useRecommendations } = MSD();
-  const { recommendations, getRecommendations } = useRecommendations();
+  const { recommendations, getRecommendations } = MSD.useRecommendations();
+
+  React.useEffect(() => {
+    MSD.init('sampleApiKey');
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text onPress={() => getRecommendations({ page: 1 })}>
-        Result: {JSON.stringify(recommendations)}
-      </Text>
+      <ScrollView>
+        <Text onPress={() => getRecommendations({ page: 1 })}>
+          Result: {JSON.stringify(recommendations)}
+        </Text>
+      </ScrollView>
     </View>
   );
 }
