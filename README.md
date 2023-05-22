@@ -1,31 +1,42 @@
-# react-native-msd
-
-msd
-
-## Installation
-
-```sh
-npm install react-native-msd
-```
-
-## Usage
-
-```js
-import { multiply } from 'react-native-msd';
+import MSD from 'react-native-msd;
 
 // ...
 
-const result = await multiply(3, 7);
-```
+i// sdk initialization
 
-## Contributing
+const {init} = MSD();
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+//... 
 
-## License
+const apiKey ='sample api key';
+init(apiKey)
 
-MIT
+//...
 
----
 
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+// use event track function
+
+const {useEvents} = MSD();
+
+//...
+
+const {track} useEvents();
+
+//...
+
+const eventName = 'some Event name';
+const eventProperties = {propertyOne: 'someValue', propertyTwo: 'someValue'}
+track(eventName, eventProperties);
+
+// use recommendations function
+
+const {useRecommendations} = MSD();
+
+const {recommendations, getRecommendations} = useRecommendations();
+
+// ...
+
+const requestParams = {paramOne: 'someValue', paramTwo: 'someValue'};
+getRecommendations(requestParams);
+// get the response as recommendations object# react-native-msd
+# react-native-msd
