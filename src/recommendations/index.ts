@@ -7,7 +7,7 @@ export const useRecommendations = () => {
   const getRecommendations = async (params: object) => {
     const apiKey = await getFromStorage('apiKey');
     console.log(apiKey);
-    const result = await apiCall('products', params);
+    const result = await apiCall('products', 'POST', params);
     setRecommendations(result || {});
   };
 
