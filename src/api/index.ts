@@ -16,7 +16,7 @@ export const apiCall = async (url: string, method: string, params?: object) => {
       requestParam.body = JSON.stringify(params);
     }
     const response = await fetch(`${BASE_URL}/${url}`, requestParam);
-    return response;
+    return response.json();
   } catch (error) {
     return error;
   }
