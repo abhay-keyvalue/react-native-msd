@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import MSD from 'react-native-msd';
+import { init, useRecommendations } from 'react-native-msd';
 
 export default function App() {
-  const { recommendations, getRecommendations } = MSD.useRecommendations();
+  const { recommendations, getRecommendations } = useRecommendations();
 
   React.useEffect(() => {
-    MSD.init('sampleApiKey');
+    init('sampleApiKey');
   }, []);
 
   return (

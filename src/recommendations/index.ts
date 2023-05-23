@@ -4,6 +4,7 @@ import { getFromStorage } from '../utils/storage';
 
 export const useRecommendations = () => {
   const [recommendations, setRecommendations] = useState<object>({});
+
   const getRecommendations = async (params: object) => {
     const apiKey = await getFromStorage('apiKey');
     console.log('apiKey', apiKey);
