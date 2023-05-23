@@ -1,14 +1,13 @@
 {
   "name": "react-native-msd",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "test",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
-  "react-native": "src/index.ts",
-  "source": "src/index",
+  "react-native": "lib/module/index.js",
+  "source": "lib/module/index.js",
   "files": [
-    "src",
     "lib",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -32,8 +31,7 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepack": "bob build",
     "release": "release-it",
-    "example": "yarn --cwd example",
-    "bootstrap": "yarn example && yarn install"
+    "example": "yarn --cwd example"
   },
   "keywords": [
     "react-native",
