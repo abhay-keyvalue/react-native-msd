@@ -1,3 +1,4 @@
+import { getFromStorage } from '../utils/storage';
 import { BASE_URL } from '../configs/endpoints';
 
 export const apiCall = async (url: string, method: string, params?: object) => {
@@ -15,6 +16,8 @@ export const apiCall = async (url: string, method: string, params?: object) => {
     if (params) {
       requestParam.body = JSON.stringify(params);
     }
+    const apiKey = await getFromStorage('apiKey');
+    console.log('apiKey', apiKey);
     const response = await fetch(`${BASE_URL}/${url}`, requestParam);
     return response.json();
   } catch (error) {
