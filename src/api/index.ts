@@ -16,7 +16,7 @@ export const apiCall = async (url: string, method: string, params?: object) => {
     if (params) {
       requestParam.body = JSON.stringify(params);
     }
-    const apiKey = await getFromStorage('apiKey');
+    const apiKey = await getFromStorage('MSD_API_KEY');
     console.log('apiKey', apiKey);
     const response = await fetch(`${BASE_URL}/${url}`, requestParam);
     return response.json();
