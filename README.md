@@ -11,15 +11,22 @@ npm install react-native-msd
 ## Usage
 
 ```js
-import {init, useEvents, useRecommendations} from 'react-native-msd';
+import {init, setUser, useEvents, useRecommendations} from 'react-native-msd';
 
 // sdk initialization
 
-const apiKey ='sample api key';
-init(apiKey)
+const token ='sample api key';
+const baseUrl ='base.ur.com';
+init({token, baseUrl})
 
 //...
 
+// login user
+
+const userId ='user id';
+setUser({userId})
+
+//...
 
 // use event track function
 
@@ -32,10 +39,15 @@ track(eventName, eventProperties);
 // use recommendations function
 
 
-const {recommendations, getRecommendations} = useRecommendations();
+const {recommendations, getRecommendationByStrategy,
+    getRecommendationByModule, getRecommendationByPage,
+    getRecommendationByText} = useRecommendations();
 
 const requestParams = {propertyOne: 'someValue', propertyTwo: 'someValue'};
-getRecommendations(requestParams);
+getRecommendationByStrategy(requestParams);
+getRecommendationByModule(requestParams);
+getRecommendationByPage(requestParams);
+getRecommendationByText(requestParams);
 
 // ...
 
