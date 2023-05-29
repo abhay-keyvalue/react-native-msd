@@ -16,7 +16,7 @@ export const useRecommendations = () => {
     setLoading(true);
     try {
       console.log({ params });
-      // TODO: Replace with correct path and params. (Giving following for testing purposes)
+      // TODO: Replace this with correct path and params. (Giving following for testing purposes)
       const result = await apiCall('products', 'POST', { page: 1 });
       setLoading(false);
       if (result.status === '200') {
