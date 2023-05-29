@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { apiCall, InternalServerError } from '../api';
 import type {
-  IGetRecommendationByTextRequest,
   IGetRecommendationRequest,
   IGetRecommendationBasic,
 } from './types';
@@ -90,7 +89,7 @@ export const useRecommendations = () => {
 
   const getRecommendationByText = async (
     text_reference: string,
-    properties: IGetRecommendationByTextRequest
+    properties: IGetRecommendationRequest
   ) => {
     // TODO: Confirm if the param is correct. Documentation provided seems to be wrong
     getRecommendation(

@@ -3,33 +3,16 @@ export type IGetRecommendationRequest = {
   platform: string;
   medium: string;
   integration_mode: string;
-  catalogs: {
-    [key: string]: {
-      fields: Array<string>;
-      context: object;
-    };
-  };
-};
-
-export type IGetRecommendationByTextRequest = {
-  user_id: string;
-  platform: string;
-  medium: string;
-  integration_mode: string;
-  catalogs: {
-    [key: string]: {
-      fields: Array<string>;
-      context: object;
-      facets: Array<string>;
-      facet_limit: number;
-      search_query: string;
-      search_fields: Array<string>;
-      sort_by: {
-        field: string;
-        order: string;
-      };
-    };
-  };
+  max_content?: number;
+  min_content?: number;
+  page_num?: number;
+  skip_cache?: boolean;
+  explain?: boolean;
+  config?: object;
+  catalogs: object;
+  min_bundles?: number;
+  max_bundles?: number;
+  unbundle?: boolean;
 };
 
 export type IGetRecommendationBasic =
