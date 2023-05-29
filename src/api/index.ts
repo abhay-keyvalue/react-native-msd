@@ -1,7 +1,15 @@
+import { isNetworkConnectivityAvailable } from 'src/utils/network';
 import { getFromStorage } from '../utils/storage';
 import type { InternalServerError, IValidationError } from './types';
 
 export const apiCall = async (url: string, method: string, params?: object) => {
+  const isConnectivityAvailable = await isNetworkConnectivityAvailable();
+  if (!isConnectivityAvailable) {
+    // internal error ERR005
+    throw new Error(
+      `{ status: 'ERR005', message: 'Internet connection unavailable.' }`
+    );
+  }
   try {
     const requestParam: {
       headers: HeadersInit_;
