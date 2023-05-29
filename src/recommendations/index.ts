@@ -22,7 +22,7 @@ export const useRecommendations = () => {
         ...properties,
       };
 
-      apiCall('search', 'POST', params)
+      apiCall('api/v1/search', 'POST', params)
         .then((response: any) => {
           return response.json();
         })
