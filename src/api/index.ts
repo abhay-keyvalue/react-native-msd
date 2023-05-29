@@ -28,36 +28,17 @@ export const apiCall = async (url: string, method: string, params?: object) => {
       },
     };
     if (params) {
-      // TODO: Replace with JSON.stringify(params); Giving sample body for testing purpose
-      requestParam.body = JSON.stringify({
-        blox_uuid: '5fbeac07-f385-4145-a690-e98571ae985e',
-        user_id: null,
-        platform: 'desktop',
-        module_name: 'Similar Products',
-        catalogs: {
-          d18edb1c46: {
-            fields: ['title', 'price', 'image_link', 'link'],
-            context: {
-              variant_id: '39596296700022',
-            },
-          },
-        },
-      });
+      requestParam.body = JSON.stringify(params);
     }
     const base_url = await getFromStorage('BASE_URL');
-    console.log('apiKey', apiKey);
-    // TODO: Need to pass the correct apiKey
-    const fetchPromise = fetch(`${base_url}/${url}`, requestParam);
-    // Create a promise that rejects after the specified timeout duration
-    const timeoutPromise = new Promise((resolve, reject) => {
-      console.log('resolve', resolve);
-      setTimeout(() => {
-        reject(new Error(`{ status: 'ERR006', message: 'Request timed out' }`));
-      }, TIMEOUT_DURATION);
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
+    const response = await fetch(`${base_url}/${url}`, {
+      ...requestParam,
+      signal: controller.signal,
     });
-
-    // Use Promise.race to handle either the fetch request completing or the timeout occurring first 
-    return Promise.race([fetchPromise, timeoutPromise]);
+    clearTimeout(id);
+    return response;
   } catch (error) {
     console.log('Network error');
     return error;
