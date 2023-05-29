@@ -1,4 +1,4 @@
-import { isNetworkConnectivityAvailable } from 'src/utils/network';
+import { isNetworkConnectivityAvailable } from '../utils/network';
 import { getFromStorage } from '../utils/storage';
 import type { InternalServerError, IValidationError } from './types';
 
