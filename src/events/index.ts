@@ -7,7 +7,10 @@ export const useEvents = () => {
       console.log(`{ status: 'ERR003', message: 'Missing event data' }`);
     }
     if (eventName?.length > 0) {
-      await apiCall('categories', 'POST', params);
+      await apiCall('api/v1/events/track', 'POST', {
+        event_name: eventName,
+        timestamp: Date.now(),
+      });
     } else {
       // internal error ERR002
       console.log(`{ status: 'ERR002', message: 'The event name is empty' }`);
