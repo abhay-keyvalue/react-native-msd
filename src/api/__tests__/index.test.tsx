@@ -1,50 +1,64 @@
-import { BASE_URL } from '../../configs/endpoints';
-import { apiCall } from '../index';
+import { apiCall } from '../index'; // Replace 'your-module-file' with the actual path to your module
+
+// Mock the necessary dependencies
+jest.mock('./your-storage-module', () => ({
+  getFromStorage: jest.fn().mockResolvedValue('mock_value'),
+}));
+jest.mock('node-fetch', () => jest.fn());
 
 describe('apiCall', () => {
-  beforeEach(() => {
-    jest.resetModules();
-    jest.restoreAllMocks();
-  });
+  it('should make a successful API call and return the response', async () => {
+    const mockUrl = 'https://example.com/api';
+    const mockMethod = 'POST';
+    const mockParams = { id: 123 };
 
-  it('should make an API call with the correct parameters and return the JSON response', async () => {
-    const url = 'products';
-    const method = 'POST';
-    const params = { page: 1 };
-
-    // Mock the fetch function and its response
-    const mockResponse = { data: 'Example response' };
-    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValueOnce(mockResponse),
-    });
+    // Mock the response from the fetch function
+    const mockResponse = {
+      json: jest.fn().mockResolvedValue({ success: true }),
+    };
+    (fetch as jest.Mock).mockResolvedValueOnce(mockResponse);
 
     // Call the apiCall function
-    const result = await apiCall(url, method, params);
+    const result = await apiCall(mockUrl, mockMethod, mockParams);
 
-    // Check if fetch was called with the correct URL and parameters
-    expect(fetch).toHaveBeenCalledWith(`${BASE_URL}/${url}`, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    });
+    // Verify the expected fetch URL and request parameters
+    expect(fetch).toHaveBeenCalledWith(
+      `mock_value/${mockUrl}`,
+      expect.objectContaining({
+        method: mockMethod,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(mockParams),
+      })
+    );
 
-    // Check if the response was parsed as JSON
-    expect(result).toEqual(mockResponse);
+    // Verify the response
+    expect(result).toEqual({ success: true });
   });
 
-  it('should return an error if an exception occurs during the API call', async () => {
-    const url = 'example.com/api';
-    const method = 'GET';
+  it('should handle an error and return the error object', async () => {
+    const mockUrl = 'https://example.com/api';
+    const mockMethod = 'GET';
 
-    // Mock the fetch function to throw an error
-    jest.spyOn(global, 'fetch').mockRejectedValueOnce('Network error');
+    // Mock the error from the fetch function
+    (fetch as jest.Mock).mockRejectedValueOnce('Network error');
 
     // Call the apiCall function
-    const result = await apiCall(url, method);
+    const result = await apiCall(mockUrl, mockMethod);
 
-    // Check if the error was returned
+    // Verify the expected fetch URL and request parameters
+    expect(fetch).toHaveBeenCalledWith(
+      `mock_value/${mockUrl}`,
+      expect.objectContaining({
+        method: mockMethod,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    );
+
+    // Verify the error object
     expect(result).toEqual('Network error');
   });
 });
