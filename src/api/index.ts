@@ -2,18 +2,16 @@ import { isNetworkConnectivityAvailable } from '../utils/network';
 import { getFromStorage } from '../utils/storage';
 import type { InternalServerError, IValidationError } from './types';
 
-// TODO: Replace with the right duration
-const TIMEOUT_DURATION = 5000000; // Timeout duration in milliseconds
+const TIMEOUT_DURATION = 50000; // Timeout duration in milliseconds
 
 export const apiCall = async (url: string, method: string, params?: object) => {
-  const isConnectivityAvailable = await isNetworkConnectivityAvailable();
-  if (!isConnectivityAvailable) {
-    // internal error ERR005
-    throw new Error(
-      `{ status: 'ERR005', message: 'Internet connection unavailable.' }`
-    );
-  }
   try {
+    const isConnectivityAvailable = await isNetworkConnectivityAvailable();
+    if (!isConnectivityAvailable) {
+      throw new Error(
+        `{ status: 'ERR005', message: 'Internet connection unavailable.' }`
+      );
+    }
     const apiKey = await getFromStorage('MSD_API_KEY');
     const requestParam: {
       headers: HeadersInit_;
@@ -33,6 +31,9 @@ export const apiCall = async (url: string, method: string, params?: object) => {
     const base_url = await getFromStorage('BASE_URL');
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
+    console.log('url:', `${base_url}/${url}`);
+    console.log('apiKey:', apiKey);
+    console.log('reqBody:', requestParam.body);
     const response = await fetch(`${base_url}/${url}`, {
       ...requestParam,
       signal: controller.signal,
@@ -40,7 +41,7 @@ export const apiCall = async (url: string, method: string, params?: object) => {
     clearTimeout(id);
     return response;
   } catch (error) {
-    console.log('Network error');
+    console.log(error);
     return error;
   }
 };

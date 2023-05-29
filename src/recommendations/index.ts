@@ -7,7 +7,7 @@ import type {
 } from './types';
 
 export const useRecommendations = () => {
-  const [recommendations, setRecommendations] = useState<object>({});
+  const [recommendations, setRecommendations] = useState<object | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<InternalServerError>();
 
@@ -28,12 +28,13 @@ export const useRecommendations = () => {
         })
         .then((result) => {
           setLoading(false);
-          setRecommendations(result || {});
+          setRecommendations(result?.data || null);
+          setError(result?.error);
         })
         .catch(() => {
           setLoading(false);
           setError({
-            errors: [{ code: 'ERR006', message: 'Request timed out.' }],
+            errors: [{ code: 'ERR006', message: 'Request timed out' }],
           });
         });
     } else {

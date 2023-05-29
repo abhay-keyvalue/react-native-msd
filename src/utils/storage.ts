@@ -29,5 +29,6 @@ export const generateAndSaveMadId = async () => {
       return v.toString(16);
     });
     await saveToStorage('MAD_UUID', MADid);
+    console.log('maduid:', MADid);
   }
 };
