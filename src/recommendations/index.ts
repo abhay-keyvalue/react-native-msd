@@ -22,31 +22,29 @@ export const useRecommendations = () => {
         ...properties,
       };
 
-      console.log({ params });
+      console.log('params getRecommendation', { params });
       // TODO: Replace with correct path and params. (Giving following for testing purposes)
       apiCall('products', 'POST', { page: 1 })
-        .then((response) => {
+        .then((response: any) => {
           // Handle successful response
           return response.json();
         })
         .then((result) => {
           setLoading(false);
-          if (result.status === '200') {
-            setRecommendations(result || {});
-          } else {
-            setError(result);
-          }
+          setRecommendations(result || {});
         })
         .catch((err) => {
           setLoading(false);
           // Handle request timeout or other errors
+          setError({
+            errors: [{ code: 'ERR006', message: 'Request timed out.' }],
+          });
           console.log('Error fetching recommendations', err);
         });
     } else {
-      // internal error ERR004
-      throw new Error(
-        `{ status: 'ERR004', message: 'Missing recommendation data' }`
-      );
+      setError({
+        errors: [{ code: 'ERR004', message: 'Missing recommendation data' }],
+      });
     }
   };
 

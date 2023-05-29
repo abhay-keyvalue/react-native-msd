@@ -1,7 +1,7 @@
 export type InternalServerError = {
-  request_id: string;
-  correlation_id: string;
-  status: string;
+  request_id?: string;
+  correlation_id?: string;
+  status?: string;
   errors: Array<{
     code: string;
     message: string;
