@@ -32,16 +32,16 @@ export type IGetRecommendationByTextRequest = {
   };
 };
 
-export type IGetRecommendation =
-  | ({
+export type IGetRecommendationBasic =
+  | {
       strategy_name: string;
-    } & IGetRecommendationRequest)
-  | ({
+    }
+  | {
       module_name: string;
-    } & IGetRecommendationRequest)
-  | ({
+    }
+  | {
       page_name: string;
-    } & IGetRecommendationRequest)
-  | ({
+    }
+  | {
       text_name: string;
-    } & IGetRecommendationByTextRequest);
+    };

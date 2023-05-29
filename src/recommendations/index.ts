@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { apiCall, InternalServerError } from '../api';
 import type {
-  IGetRecommendation,
   IGetRecommendationByTextRequest,
   IGetRecommendationRequest,
+  IGetRecommendationBasic,
 } from './types';
 
 export const useRecommendations = () => {
@@ -12,22 +12,42 @@ export const useRecommendations = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<InternalServerError>();
 
-  const getRecommendation = async (params: IGetRecommendation) => {
-    setLoading(true);
-    try {
+  const getRecommendation = async (
+    basicParams: IGetRecommendationBasic,
+    properties: IGetRecommendationRequest
+  ) => {
+    if (properties) {
+      setLoading(true);
+      const params = {
+        ...basicParams,
+        ...properties,
+      };
+
       console.log({ params });
       // TODO: Replace with correct path and params. (Giving following for testing purposes)
-      const result = await apiCall('products', 'POST', { page: 1 });
-      setLoading(false);
-      if (result.status === '200') {
-        setRecommendations(result || {});
-      } else {
-        setError(result);
-      }
-    } catch (err) {
-      setLoading(false);
-      console.log('Error fetching recommendations', err);
-      throw err;
+      apiCall('products', 'POST', { page: 1 })
+        .then((response) => {
+          // Handle successful response
+          return response.json();
+        })
+        .then((result) => {
+          setLoading(false);
+          if (result.status === '200') {
+            setRecommendations(result || {});
+          } else {
+            setError(result);
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          // Handle request timeout or other errors
+          console.log('Error fetching recommendations', err);
+        });
+    } else {
+      // internal error ERR004
+      throw new Error(
+        `{ status: 'ERR004', message: 'Missing recommendation data' }`
+      );
     }
   };
 
@@ -35,30 +55,36 @@ export const useRecommendations = () => {
     strategy_reference: string,
     properties: IGetRecommendationRequest
   ) => {
-    getRecommendation({
-      strategy_name: strategy_reference,
-      ...properties,
-    });
+    getRecommendation(
+      {
+        strategy_name: strategy_reference,
+      },
+      properties
+    );
   };
 
   const getRecommendationByModule = async (
     module_reference: string,
     properties: IGetRecommendationRequest
   ) => {
-    getRecommendation({
-      module_name: module_reference,
-      ...properties,
-    });
+    getRecommendation(
+      {
+        module_name: module_reference,
+      },
+      properties
+    );
   };
 
   const getRecommendationByPage = async (
     page_reference: string,
     properties: IGetRecommendationRequest
   ) => {
-    getRecommendation({
-      page_name: page_reference,
-      ...properties,
-    });
+    getRecommendation(
+      {
+        page_name: page_reference,
+      },
+      properties
+    );
     setLoading(true);
   };
 
@@ -67,10 +93,12 @@ export const useRecommendations = () => {
     properties: IGetRecommendationByTextRequest
   ) => {
     // TODO: Confirm if the param is correct. Documentation provided seems to be wrong
-    getRecommendation({
-      text_name: text_reference,
-      ...properties,
-    });
+    getRecommendation(
+      {
+        text_name: text_reference,
+      },
+      properties
+    );
   };
 
   return {
