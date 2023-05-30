@@ -1,4 +1,6 @@
 import { Platform } from 'react-native';
+
+import { BASE_URL, MAD_UUID, MSD_API_KEY, USER_ID } from '../constants';
 import { isNetworkConnectivityAvailable } from '../utils/network';
 import { getFromStorage } from '../utils/storage';
 import type { InternalServerError, IValidationError } from './types';
@@ -13,9 +15,9 @@ export const apiCall = async (url: string, method: string, params?: object) => {
         `{ status: 'ERR005', message: 'Internet connection unavailable.' }`
       );
     }
-    const apiKey = await getFromStorage('MSD_API_KEY');
-    const userId = await getFromStorage('USER_ID');
-    const madUuid = await getFromStorage('MAD_UUID');
+    const apiKey = await getFromStorage(MSD_API_KEY);
+    const userId = await getFromStorage(USER_ID);
+    const madUuid = await getFromStorage(MAD_UUID);
     const requestParam: {
       headers: HeadersInit_;
       method: string;
@@ -36,13 +38,13 @@ export const apiCall = async (url: string, method: string, params?: object) => {
         platform: Platform.OS,
       });
     }
-    const base_url = await getFromStorage('BASE_URL');
+    const baseUrl = await getFromStorage(BASE_URL);
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
-    console.log('url:', `${base_url}/${url}`);
+    console.log('url:', `${baseUrl}/${url}`);
     console.log('apiKey:', apiKey);
     console.log('reqBody:', requestParam.body);
-    const response = await fetch(`${base_url}/${url}`, {
+    const response = await fetch(`${baseUrl}/${url}`, {
       ...requestParam,
       signal: controller.signal,
     });

@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { MAD_UUID } from 'src/constants';
+
 export const saveToStorage = async (key: string, value: string) => {
   try {
     const result = await AsyncStorage.setItem(key, value);
@@ -19,16 +21,16 @@ export const getFromStorage = async (key: string) => {
 };
 
 export const generateAndSaveMadId = async () => {
-  let MADid = await getFromStorage('MAD_UUID');
-  if (!MADid) {
-    MADid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+  let madId = await getFromStorage(MAD_UUID);
+  if (!madId) {
+    madId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       // eslint-disable-next-line no-bitwise, prettier/prettier
       const r = Math.random() * 16 | 0 ;
       // eslint-disable-next-line no-bitwise, prettier/prettier
       const v = c === 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
-    await saveToStorage('MAD_UUID', MADid);
-    console.log('maduid:', MADid);
+    await saveToStorage(MAD_UUID, madId);
+    console.log('madId:', madId);
   }
 };
