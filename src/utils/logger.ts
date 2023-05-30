@@ -1,3 +1,8 @@
-export const msdLogger = (message: string) => {
-  console.log(message);
+export const logger = {
+  error: (error: string) => {
+    console.error(error);
+  },
+  log: (message: string) => {
+    console.log(message);
+  },
 };
