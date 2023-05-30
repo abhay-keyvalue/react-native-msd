@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { uuid } from 'uuidv4';
+import uuid from 'uuidv4';
 
 import { MAD_UUID } from '../constants';
 import { logger } from './logger';
