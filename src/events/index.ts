@@ -1,18 +1,24 @@
 import { apiCall } from '../api';
+import { ERROR_CODES } from '../constants';
+import { msdLogger } from '../utils/logger';
 
 export const useEvents = () => {
   const track = async (eventName: string, params: object) => {
     if (!params) {
-      console.log(`{ status: 'ERR003', message: 'Missing event data' }`);
+      msdLogger(
+        `{ status: ${ERROR_CODES.ERR003.code}, message: ${ERROR_CODES.ERR003.message} }`
+      );
     }
     if (eventName?.length > 0) {
-      console.log(`eventName:`, eventName);
+      msdLogger(`eventName: ${eventName}`);
       await apiCall('api/v1/events/track', 'POST', {
         event_name: eventName,
         timestamp: Date.now(),
       });
     } else {
-      console.log(`{ status: 'ERR002', message: 'The event name is empty' }`);
+      msdLogger(
+        `{ status: ${ERROR_CODES.ERR002.code}, message: ${ERROR_CODES.ERR002.message} }`
+      );
     }
   };
   return {

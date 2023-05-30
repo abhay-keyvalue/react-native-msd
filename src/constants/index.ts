@@ -3,7 +3,7 @@ export const MSD_API_KEY = 'MSD_API_KEY';
 export const USER_ID = 'USER_ID';
 export const MAD_UUID = 'MAD_UUID';
 
-export const ERROR_CODE = {
+export const ERROR_CODES = {
   ERR001: {
     code: 'ERR001',
     message: 'The token provided is empty',
