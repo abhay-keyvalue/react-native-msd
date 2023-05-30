@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { isNetworkConnectivityAvailable } from '../utils/network';
 import { getFromStorage } from '../utils/storage';
 import type { InternalServerError, IValidationError } from './types';
@@ -13,6 +14,8 @@ export const apiCall = async (url: string, method: string, params?: object) => {
       );
     }
     const apiKey = await getFromStorage('MSD_API_KEY');
+    const userId = await getFromStorage('USER_ID');
+    const madUuid = await getFromStorage('MAD_UUID');
     const requestParam: {
       headers: HeadersInit_;
       method: string;
@@ -26,7 +29,12 @@ export const apiCall = async (url: string, method: string, params?: object) => {
       },
     };
     if (params) {
-      requestParam.body = JSON.stringify(params);
+      requestParam.body = JSON.stringify({
+        ...params,
+        blox_uuid: madUuid,
+        user_id: userId,
+        platform: Platform.OS,
+      });
     }
     const base_url = await getFromStorage('BASE_URL');
     const controller = new AbortController();

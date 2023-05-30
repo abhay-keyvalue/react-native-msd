@@ -1,8 +1,5 @@
 export type IGetRecommendationRequest = {
-  blox_uuid: string;
-  user_id: string;
-  platform: string;
-  module_name: string;
+  module_name?: string;
   medium?: string;
   integration_mode?: string;
   max_content?: number;
