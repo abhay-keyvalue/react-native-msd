@@ -31,14 +31,18 @@ export const apiCall = async (url: string, method: string, params?: object) => {
         'x-api-key': apiKey || '',
       },
     };
+
+    let apiParams = {
+      blox_uuid: madUuid,
+      user_id: userId,
+      platform: Platform.OS,
+    };
+
     if (params) {
-      requestParam.body = JSON.stringify({
-        ...params,
-        blox_uuid: madUuid,
-        user_id: userId,
-        platform: Platform.OS,
-      });
+      apiParams = { ...apiParams, ...params };
     }
+
+    requestParam.body = JSON.stringify(apiParams);
     const baseUrl = await getFromStorage(MSD_BASE_URL);
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
