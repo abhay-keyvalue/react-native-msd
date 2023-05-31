@@ -29,6 +29,6 @@ export const generateAndSaveMadId = async () => {
   if (!madUuid) {
     madUuid = uuid();
     await saveToStorage(MAD_UUID, madUuid);
-    logger.log(`madId: ${madUuid}`);
+    logger.info(`madId: ${madUuid}`);
   }
 };

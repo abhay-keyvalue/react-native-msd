@@ -9,7 +9,7 @@ import type {
 export const useRecommendations = () => {
   const [recommendations, setRecommendations] = useState<object | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<InternalServerError>();
+  const [error, setError] = useState<InternalServerError | null>(null);
 
   const getRecommendation = async (
     basicParams: IGetRecommendationBasic,
