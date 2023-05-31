@@ -9,7 +9,7 @@ export const saveToStorage = async (key: string, value: string) => {
     const result = await AsyncStorage.setItem(key, value);
     return result;
   } catch (err) {
-    logger.error(`Error while save ${key} to storage`);
+    logger.error(`Error while save ${key} to storage, ${err}`);
     return null;
   }
 };
@@ -19,7 +19,7 @@ export const getFromStorage = async (key: string) => {
     const value = await AsyncStorage.getItem(key);
     return value;
   } catch (err) {
-    logger.error(`Error while get ${key} from storage`);
+    logger.error(`Error while get ${key} from storage, ${err}`);
     return null;
   }
 };

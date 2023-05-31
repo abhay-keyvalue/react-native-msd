@@ -9,7 +9,7 @@ const levelLogFns = {
 };
 
 export const logger = {
-  log: (level: any, message: string) => {
+  log: (level: LogLevel.INFO | LogLevel.ERROR, message: string) => {
     const timestamp = new Date().toISOString();
     const levelString = LogLevel[level].toUpperCase();
     const levelLogFn = levelLogFns[level];
