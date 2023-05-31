@@ -1,8 +1,24 @@
+enum LogLevel {
+  INFO,
+  ERROR,
+}
+
+const levelLogFns = {
+  [LogLevel.INFO]: console.log,
+  [LogLevel.ERROR]: console.error,
+};
+
 export const logger = {
-  error: (error: string) => {
-    console.error(error);
+  log: (level: any, message: string) => {
+    const timestamp = new Date().toISOString();
+    const levelString = LogLevel[level].toUpperCase();
+    const levelLogFn = levelLogFns[level];
+    levelLogFn(`[${timestamp}] [${levelString}] ${message}`);
   },
-  log: (message: string) => {
-    console.log(message);
+  error: function (error: string) {
+    this.log(LogLevel.ERROR, error);
+  },
+  info: function (message: string) {
+    this.log(LogLevel.INFO, message);
   },
 };

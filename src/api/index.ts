@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-import { BASE_URL, MAD_UUID, MSD_API_KEY, USER_ID } from '../constants';
+import { MSD_BASE_URL, MAD_UUID, MSD_API_KEY, USER_ID } from '../constants';
 import { isNetworkConnectivityAvailable } from '../utils/network';
 import { getFromStorage } from '../utils/storage';
 import { logger } from '../utils/logger';
@@ -39,12 +39,12 @@ export const apiCall = async (url: string, method: string, params?: object) => {
         platform: Platform.OS,
       });
     }
-    const baseUrl = await getFromStorage(BASE_URL);
+    const baseUrl = await getFromStorage(MSD_BASE_URL);
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), TIMEOUT_DURATION);
-    logger.log(`url: ${baseUrl}/${url}`);
-    logger.log(`apiKey: ${apiKey}`);
-    logger.log(`reqBody: ${requestParam.body}`);
+    logger.info(`url: ${baseUrl}/${url}`);
+    logger.info(`apiKey: ${apiKey}`);
+    logger.info(`reqBody: ${requestParam.body}`);
     const response = await fetch(`${baseUrl}/${url}`, {
       ...requestParam,
       signal: controller.signal,

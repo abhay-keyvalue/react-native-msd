@@ -10,7 +10,7 @@ export const useEvents = () => {
       );
     }
     if (eventName?.length > 0) {
-      logger.log(`eventName: ${eventName}`);
+      logger.info(`eventName: ${eventName}`);
       await apiCall('api/v1/events/track', 'POST', {
         event_name: eventName,
         timestamp: Date.now(),
